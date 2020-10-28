@@ -33,7 +33,7 @@ const NavBar = () => {
         Registrar Grátis
       </Button>
 
-      <ListSubheader>Tags em alta</ListSubheader>
+      <ListSubheader>{ 'Tags em alta' }</ListSubheader>
 
       {
         tags.map((item, key) => (
