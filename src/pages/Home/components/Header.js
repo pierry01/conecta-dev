@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import { Bell } from 'react-feather'
 import Avatar from '@material-ui/core/Avatar'
+import authService from '../../../services/authService'
 
 const useStyles = makeStyles({
   appBar: { boxShadow: 'none' },
@@ -15,22 +16,28 @@ const useStyles = makeStyles({
   bell: { marginRight: 10 },
   userSection: {
     display: 'flex',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 })
 
 const Header = () => {
   const classes = useStyles()
+  const user = authService.getUser()
+  console.log(user)
 
   return (
     <AppBar className={classes.appBar} position='fixed' color='inherit'>
       <Toolbar>
         <img src='/images/logo.png' className={classes.img} alt='logo' />
-        
+
         <div className={classes.grow}></div>
 
         <div className={classes.userSection}>
-          <Button className={classes.button} variant='contained' color='primary'>
+          <Button
+            className={classes.button}
+            variant='contained'
+            color='primary'
+          >
             Novo Post
           </Button>
 
@@ -38,7 +45,7 @@ const Header = () => {
             <Bell></Bell>
           </SvgIcon>
 
-          <Avatar alt="Avatar" src="/" />
+          <Avatar alt='Avatar' src={user && user.avatar} />
         </div>
       </Toolbar>
     </AppBar>
