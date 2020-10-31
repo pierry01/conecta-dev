@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { useNavigate } from 'react-router-dom'
-import authService from '../../services/authService'
+import { useDispatch } from 'react-redux'
+import { signIn } from '../../actions/accountActions'
 
 import {
   Typography,
@@ -45,10 +46,11 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState()
-
+  const dispatch = useDispatch()
+  
   const handleSignIn = async () => {
     try {
-      await authService.signIn(email, password)
+      await dispatch(signIn(email, password))
       navigate('/')
     } catch (error) {
       setErrorMessage(error.response.data.message)

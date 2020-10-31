@@ -7,7 +7,7 @@ class AuthService {
         .post('/api/home/login', { email, password })
         .then((response) => {
           if (response.data.user) {
-            this.setUser(response.data.user)
+            this.setToken('JWT')
             resolve(response.data.user)
           } else {
             reject(response.data.error)
@@ -18,19 +18,33 @@ class AuthService {
         })
     })
   }
-
-  setUser = (user) => localStorage.setItem('user', JSON.stringify(user))
-  getUser = () => {
-    const user = localStorage.getItem('user')
-
-    if (user) {
-      return JSON.parse(user)
-    }
-
-    return user
+  
+  signInWithToken = () => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post('/api/home/me')
+        .then((response) => {
+          if (response.data.user) {
+            resolve(response.data.user)
+          } else {
+            reject(response.data.error)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  }
+  
+  signOut = () => {
+    this.removeToken()
   }
 
-  isAuthenticated = () => !!this.getUser()
+  setToken = (token) => localStorage.setItem('accessToken', token)
+  getToken = () => localStorage.getItem('accessToken')
+  removeToken = () => localStorage.removeItem('accessToken')
+
+  isAuthenticated = () => !!this.getToken()
 }
 
 const authService = new AuthService()
